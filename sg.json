@@ -1,0 +1,90 @@
+{
+    "SecurityGroups": [
+        {
+            "Description": "Description",
+            "GroupName": "GroupName",
+            "IpPermissions": [
+                {
+                    "FromPort": 0,
+                    "IpProtocol": "IpProtocol",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "CidrIp",
+                            "Description": "Description"
+                        }
+                    ],
+                    "Ipv6Ranges": [
+                        {
+                            "CidrIpv6": "CidrIpv6",
+                            "Description": "Description"
+                        }
+                    ],
+                    "PrefixListIds": [
+                        {
+                            "Description": "Description",
+                            "PrefixListId": "PrefixListId"
+                        }
+                    ],
+                    "ToPort": 0,
+                    "UserIdGroupPairs": [
+                        {
+                            "Description": "Description",
+                            "GroupId": "GroupId",
+                            "GroupName": "GroupName",
+                            "PeeringStatus": "PeeringStatus",
+                            "UserId": "UserId",
+                            "VpcId": "VpcId",
+                            "VpcPeeringConnectionId": "VpcPeeringConnectionId"
+                        }
+                    ]
+                }
+            ],
+            "OwnerId": "OwnerId",
+            "GroupId": "GroupId",
+            "IpPermissionsEgress": [
+                {
+                    "FromPort": 0,
+                    "IpProtocol": "IpProtocol",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "CidrIp",
+                            "Description": "Description"
+                        }
+                    ],
+                    "Ipv6Ranges": [
+                        {
+                            "CidrIpv6": "CidrIpv6",
+                            "Description": "Description"
+                        }
+                    ],
+                    "PrefixListIds": [
+                        {
+                            "Description": "Description",
+                            "PrefixListId": "PrefixListId"
+                        }
+                    ],
+                    "ToPort": 0,
+                    "UserIdGroupPairs": [
+                        {
+                            "Description": "Description",
+                            "GroupId": "GroupId",
+                            "GroupName": "GroupName",
+                            "PeeringStatus": "PeeringStatus",
+                            "UserId": "UserId",
+                            "VpcId": "VpcId",
+                            "VpcPeeringConnectionId": "VpcPeeringConnectionId"
+                        }
+                    ]
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Key",
+                    "Value": "Value"
+                }
+            ],
+            "VpcId": "VpcId"
+        }
+    ],
+    "NextToken": "NextToken"
+}
