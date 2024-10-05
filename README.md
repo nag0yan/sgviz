@@ -1,6 +1,11 @@
 # sgviz
 A Visualizer of aws security groups
 
+## Installation
+```shell
+go install github.com/nag0yan/sgviz@latest
+```
+
 ## Usage
 Get security groups information in your account with [AWS CLI](https://docs.aws.amazon.com/cli/)  
 ```shell
