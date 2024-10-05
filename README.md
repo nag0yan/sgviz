@@ -2,7 +2,7 @@
 A Visualizer of aws security groups
 
 ## Usage
-Get security groups information in your account from [AWS CLI](https://docs.aws.amazon.com/cli/)  
+Get security groups information in your account with [AWS CLI](https://docs.aws.amazon.com/cli/)  
 ```shell
 aws ec2 describe-security-groups > sg.json
 ```
