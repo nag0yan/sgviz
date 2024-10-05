@@ -12,8 +12,8 @@ sgviz sg.json > sg.md
 ```
 
 ## Supported
-- [] Multiple security groups
-- [] Any inbound rule
+- [ ] Multiple security groups
+- [ ] Any inbound rule
 
 ## Not supported
 - Outbound rules
