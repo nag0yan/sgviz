@@ -21,7 +21,7 @@ Any type of inbound rules
 - [x] From IPv4s
 - [x] From Security Groups
 - [x] From Prefix Lists
-- [x] From Ipv6
+- [x] From Ipv6s
 
 ## Not supported
 - Outbound rules
