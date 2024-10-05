@@ -12,8 +12,11 @@ sgviz sg.json > sg.md
 ```
 
 ## Supported
-- [ ] Multiple security groups
-- [ ] Any inbound rule
+Any type of inbound rules
+- [x] From IPv4s
+- [x] From Security Groups
+- [x] From Prefix Lists
+- [x] From Ipv6
 
 ## Not supported
 - Outbound rules

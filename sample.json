@@ -1,0 +1,176 @@
+{
+    "SecurityGroups": [
+        {
+            "Description": "test-sg-1 description",
+            "GroupName": "test-sg-1",
+            "IpPermissions": [
+                {
+                    "FromPort": 80,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "8.8.8.8/32",
+                            "Description": "Dummy IP"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 80,
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "OwnerId": "0123456789012",
+            "GroupId": "sg-09fd25fe9c1abaea3",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-0118038baa12b9d5c"
+        },
+        {
+            "Description": "test-sg-3 description",
+            "GroupName": "test-sg-3",
+            "IpPermissions": [
+                {
+                    "FromPort": 80,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [],
+                    "Ipv6Ranges": [
+                        {
+                            "CidrIpv6": "2001:4860:4860::8888/128",
+                            "Description": "Dummy IP"
+                        }
+                    ],
+                    "PrefixListIds": [],
+                    "ToPort": 80,
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "OwnerId": "0123456789012",
+            "GroupId": "sg-058de1ab2168c9bb6",
+            "IpPermissionsEgress": [
+                {
+                    "FromPort": 0,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 0,
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-0118038baa12b9d5c"
+        },
+        {
+            "Description": "test-sg-2 description",
+            "GroupName": "test-sg-2",
+            "IpPermissions": [
+                {
+                    "FromPort": 80,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "8.8.8.8/32",
+                            "Description": "Dummy IP"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 80,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 0,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 65535,
+                    "UserIdGroupPairs": [
+                        {
+                            "GroupId": "sg-09fd25fe9c1abaea3",
+                            "UserId": "0123456789012"
+                        }
+                    ]
+                },
+                {
+                    "FromPort": 53,
+                    "IpProtocol": "udp",
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [
+                        {
+                            "Description": "Dummy Prefix List",
+                            "PrefixListId": "pl-00ee65e523c87193e"
+                        }
+                    ],
+                    "ToPort": 53,
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "OwnerId": "0123456789012",
+            "GroupId": "sg-0a86b346f3fc18b8a",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-0118038baa12b9d5c"
+        },
+        {
+            "Description": "default VPC security group",
+            "GroupName": "default",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": [
+                        {
+                            "GroupId": "sg-09db6769ea6dc4ade",
+                            "UserId": "0123456789012"
+                        }
+                    ]
+                }
+            ],
+            "OwnerId": "0123456789012",
+            "GroupId": "sg-09db6769ea6dc4ade",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-0118038baa12b9d5c"
+        }
+    ]
+}
