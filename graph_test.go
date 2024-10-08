@@ -79,11 +79,15 @@ func TestCreateIpv6Node(t *testing.T) {
 }
 
 func TestCreatePermEdge(t *testing.T) {
-	got := CreatePermEdge("from", "to", 1, 2)
+	got := CreatePermEdge("from", "to", &IPPermission{
+		FromPort:   1,
+		ToPort:     2,
+		IPProtocol: "tcp",
+	})
 	want := &Edge{
 		from: "from",
 		to:   "to",
-		text: "1-2",
+		text: "TCP 1-2",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -91,11 +95,15 @@ func TestCreatePermEdge(t *testing.T) {
 }
 
 func TestCreateSinglePortPermEdge(t *testing.T) {
-	got := CreatePermEdge("from", "to", 1, 1)
+	got := CreatePermEdge("from", "to", &IPPermission{
+		FromPort:   1,
+		ToPort:     1,
+		IPProtocol: "tcp",
+	})
 	want := &Edge{
 		from: "from",
 		to:   "to",
-		text: "1",
+		text: "TCP 1",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -103,11 +111,15 @@ func TestCreateSinglePortPermEdge(t *testing.T) {
 }
 
 func TestCreateZeroPortPermEdge(t *testing.T) {
-	got := CreatePermEdge("from", "to", 0, 0)
+	got := CreatePermEdge("from", "to", &IPPermission{
+		FromPort:   0,
+		ToPort:     0,
+		IPProtocol: "tcp",
+	})
 	want := &Edge{
 		from: "from",
 		to:   "to",
-		text: "All Ports",
+		text: "TCP All Ports",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)

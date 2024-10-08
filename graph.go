@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 type Node struct {
@@ -71,18 +72,24 @@ func CreateIpv6Node(ipv6 *Ipv6Range) *Node {
 	}
 }
 
-func CreatePermEdge(from string, to string, fromPort int, toPort int) *Edge {
-	var text string
-	if fromPort == 0 && toPort == 0 {
-		text = "All Ports"
-	} else if fromPort == toPort {
-		text = fmt.Sprintf("%v", fromPort)
+func CreatePermEdge(from string, to string, ipPerm *IPPermission) *Edge {
+	var textArray []string
+	if ipPerm.IPProtocol == "-1" {
+		textArray = append(textArray, "All Protocols")
 	} else {
-		text = fmt.Sprintf("%v-%v", fromPort, toPort)
+		textArray = append(textArray, strings.ToUpper(ipPerm.IPProtocol))
+	}
+
+	if ipPerm.FromPort == 0 && ipPerm.ToPort == 0 {
+		textArray = append(textArray, "All Ports")
+	} else if ipPerm.FromPort == ipPerm.ToPort {
+		textArray = append(textArray, fmt.Sprintf("%v", ipPerm.FromPort))
+	} else {
+		textArray = append(textArray, fmt.Sprintf("%v-%v", ipPerm.FromPort, ipPerm.ToPort))
 	}
 	return &Edge{
 		from: from,
 		to:   to,
-		text: text,
+		text: strings.Join(textArray, " "),
 	}
 }
