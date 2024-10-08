@@ -90,6 +90,30 @@ func TestCreatePermEdge(t *testing.T) {
 	}
 }
 
+func TestCreateSinglePortPermEdge(t *testing.T) {
+	got := CreatePermEdge("from", "to", 1, 1)
+	want := &Edge{
+		from: "from",
+		to:   "to",
+		text: "1",
+	}
+	if *got != *want {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestCreateZeroPortPermEdge(t *testing.T) {
+	got := CreatePermEdge("from", "to", 0, 0)
+	want := &Edge{
+		from: "from",
+		to:   "to",
+		text: "All Ports",
+	}
+	if *got != *want {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
 func TestAddNode(t *testing.T) {
 	g := NewGraph()
 	n := &Node{id: "id"}

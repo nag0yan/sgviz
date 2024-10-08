@@ -72,9 +72,17 @@ func CreateIpv6Node(ipv6 *Ipv6Range) *Node {
 }
 
 func CreatePermEdge(from string, to string, fromPort int, toPort int) *Edge {
+	var text string
+	if fromPort == 0 && toPort == 0 {
+		text = "All Ports"
+	} else if fromPort == toPort {
+		text = fmt.Sprintf("%v", fromPort)
+	} else {
+		text = fmt.Sprintf("%v-%v", fromPort, toPort)
+	}
 	return &Edge{
 		from: from,
 		to:   to,
-		text: fmt.Sprintf("%v-%v", fromPort, toPort),
+		text: text,
 	}
 }
