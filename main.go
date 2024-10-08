@@ -30,35 +30,50 @@ func main() {
 	}
 	sgs := res.SecurityGroups
 
-	// Create Flow Chart (Graph)
+	// Generate Markdown
+	GenerateMarkDown(os.Stdout, sgs)
+}
+
+func GenerateMarkDown(writer io.Writer, sgs []SecurityGroup) {
+	// Create Graph
+	var g *Graph = NewGraph()
+
+	for _, sg := range sgs {
+		g.AddNode(CreateSgNode(&sg))
+
+		for _, ipPerm := range sg.IPPermissions {
+			for _, ipRange := range ipPerm.IPRanges {
+				g.AddNode(CreateIPNode(&ipRange))
+				g.AddEdge(CreatePermEdge(ipRange.CidrIP, sg.GroupID, ipPerm.FromPort, ipPerm.ToPort))
+			}
+
+			for _, userIDGroupPair := range ipPerm.UserIDGroupPairs {
+				g.AddNode(CreateUserIDGroupPairNode(&userIDGroupPair))
+				g.AddEdge(CreatePermEdge(userIDGroupPair.GroupID, sg.GroupID, ipPerm.FromPort, ipPerm.ToPort))
+			}
+
+			for _, prefixListId := range ipPerm.PrefixListIds {
+				g.AddNode(CreatePrefixNode(&prefixListId))
+				g.AddEdge(CreatePermEdge(prefixListId.PrefixListID, sg.GroupID, ipPerm.FromPort, ipPerm.ToPort))
+			}
+
+			for _, ipv6Range := range ipPerm.Ipv6Ranges {
+				g.AddNode(CreateIpv6Node(&ipv6Range))
+				g.AddEdge(CreatePermEdge(ipv6Range.CidrIpv6, sg.GroupID, ipPerm.FromPort, ipPerm.ToPort))
+			}
+		}
+	}
+
+	// Create Flow Chart
 	fc := flowchart.NewFlowchart(
 		io.Discard,
 		flowchart.WithOrientalLeftToRight(),
 	)
-
-	for _, sg := range sgs {
-		fc.NodeWithText(sg.GroupID, fmt.Sprintf("%v\n(%v)", sg.GroupID, sg.GroupName))
-
-		for _, ipPerm := range sg.IPPermissions {
-			for _, ipRange := range ipPerm.IPRanges {
-				fc.NodeWithText(ipRange.CidrIP, fmt.Sprintf("%v\n(%v)", ipRange.CidrIP, ipRange.Description))
-				fc.LinkWithArrowHeadAndText(fmt.Sprintf("%v", ipRange.CidrIP), sg.GroupID, fmt.Sprintf("%v-%v", ipPerm.FromPort, ipPerm.ToPort))
-			}
-
-			for _, userIDGroupPair := range ipPerm.UserIDGroupPairs {
-				fc.LinkWithArrowHeadAndText(fmt.Sprintf("%v", userIDGroupPair.GroupID), sg.GroupID, fmt.Sprintf("%v-%v", ipPerm.FromPort, ipPerm.ToPort))
-			}
-
-			for _, prefixListId := range ipPerm.PrefixListIds {
-				fc.NodeWithText(prefixListId.PrefixListID, fmt.Sprintf("%v\n(%v)", prefixListId.PrefixListID, prefixListId.Description))
-				fc.LinkWithArrowHeadAndText(fmt.Sprintf("%v", prefixListId.PrefixListID), sg.GroupID, fmt.Sprintf("%v-%v", ipPerm.FromPort, ipPerm.ToPort))
-			}
-
-			for _, ipv6Range := range ipPerm.Ipv6Ranges {
-				fc.NodeWithText(ipv6Range.CidrIpv6, fmt.Sprintf("%v\n(%v)", ipv6Range.CidrIpv6, ipv6Range.Description))
-				fc.LinkWithArrowHeadAndText(fmt.Sprintf("%v", ipv6Range.CidrIpv6), sg.GroupID, fmt.Sprintf("%v-%v", ipPerm.FromPort, ipPerm.ToPort))
-			}
-		}
+	for _, n := range g.nodes {
+		fc.NodeWithText(n.id, n.text)
+	}
+	for _, e := range g.edges {
+		fc.LinkWithArrowHeadAndText(e.from, e.to, e.text)
 	}
 
 	// Generate Output
