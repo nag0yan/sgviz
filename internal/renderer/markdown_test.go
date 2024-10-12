@@ -31,13 +31,10 @@ func TestGenerateMarkDown(t *testing.T) {
 	if output == "" {
 		t.Errorf("got empty, want not empty")
 	}
-	if !strings.Contains(output, "mermaid") {
-		t.Errorf("got %v, want to contain %v", output, "mermaid")
-	}
-	if !strings.Contains(output, "sg-12345678") {
-		t.Errorf("got %v, want to contain %v", output, "sg-12345678")
-	}
-	if !strings.Contains(output, "xx.xx.xx.xx") {
-		t.Errorf("got %v, want to contain %v", output, "xx.xx.xx.xx")
+	c := []string{"```", "mermaid", "sg-12345678", "xx.xx.xx.xx"}
+	for _, v := range c {
+		if !strings.Contains(output, v) {
+			t.Errorf("got %v, want to contain %v", output, v)
+		}
 	}
 }
