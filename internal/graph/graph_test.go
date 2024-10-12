@@ -1,17 +1,21 @@
-package main
+package graph_test
 
-import "testing"
+import (
+	"testing"
+	"github.com/nag0yan/sgviz/internal/model"
+	"github.com/nag0yan/sgviz/internal/graph"
+)
 
 func TestCreateSgNode(t *testing.T) {
-	sg := &SecurityGroup{
+	sg := &model.SecurityGroup{
 		GroupID:     "id",
 		GroupName:   "name",
 		Description: "description",
 	}
-	got := CreateSgNode(sg)
-	want := &Node{
-		id:   "id",
-		text: "id:name\n(description)",
+	got := graph.CreateSgNode(sg)
+	want := &graph.Node{
+		Id:   "id",
+		Text: "id:name\n(description)",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -19,14 +23,14 @@ func TestCreateSgNode(t *testing.T) {
 }
 
 func TestCreateIPNode(t *testing.T) {
-	ip := &IPRange{
+	ip := &model.IPRange{
 		CidrIP:      "cidr",
 		Description: "description",
 	}
-	got := CreateIPNode(ip)
-	want := &Node{
-		id:   "cidr",
-		text: "cidr\n(description)",
+	got := graph.CreateIPNode(ip)
+	want := &graph.Node{
+		Id:   "cidr",
+		Text: "cidr\n(description)",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -34,14 +38,14 @@ func TestCreateIPNode(t *testing.T) {
 }
 
 func TestCreateUserIDGroupPairNode(t *testing.T) {
-	userIDGroupPair := &UserIDGroupPair{
+	userIDGroupPair := &model.UserIDGroupPair{
 		GroupID: "id",
 		UserID:  "user",
 	}
-	got := CreateUserIDGroupPairNode(userIDGroupPair)
-	want := &Node{
-		id:   "id",
-		text: "id\n(user)",
+	got := graph.CreateUserIDGroupPairNode(userIDGroupPair)
+	want := &graph.Node{
+		Id:   "id",
+		Text: "id\n(user)",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -49,14 +53,14 @@ func TestCreateUserIDGroupPairNode(t *testing.T) {
 }
 
 func TestCreatePrefixNode(t *testing.T) {
-	prefix := &PrefixListId{
+	prefix := &model.PrefixListId{
 		PrefixListID: "id",
 		Description:  "description",
 	}
-	got := CreatePrefixNode(prefix)
-	want := &Node{
-		id:   "id",
-		text: "id\n(description)",
+	got := graph.CreatePrefixNode(prefix)
+	want := &graph.Node{
+		Id:   "id",
+		Text: "id\n(description)",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -64,14 +68,14 @@ func TestCreatePrefixNode(t *testing.T) {
 }
 
 func TestCreateIpv6Node(t *testing.T) {
-	ipv6 := &Ipv6Range{
+	ipv6 := &model.Ipv6Range{
 		CidrIpv6:    "cidr",
 		Description: "description",
 	}
-	got := CreateIpv6Node(ipv6)
-	want := &Node{
-		id:   "cidr",
-		text: "cidr\n(description)",
+	got := graph.CreateIpv6Node(ipv6)
+	want := &graph.Node{
+		Id:   "cidr",
+		Text: "cidr\n(description)",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -79,15 +83,15 @@ func TestCreateIpv6Node(t *testing.T) {
 }
 
 func TestCreatePermEdge(t *testing.T) {
-	got := CreatePermEdge("from", "to", &IPPermission{
+	got := graph.CreatePermEdge("from", "to", &model.IPPermission{
 		FromPort:   1,
 		ToPort:     2,
 		IPProtocol: "tcp",
 	})
-	want := &Edge{
-		from: "from",
-		to:   "to",
-		text: "TCP 1-2",
+	want := &graph.Edge{
+		From: "from",
+		To:   "to",
+		Text: "TCP 1-2",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -95,15 +99,15 @@ func TestCreatePermEdge(t *testing.T) {
 }
 
 func TestCreateSinglePortPermEdge(t *testing.T) {
-	got := CreatePermEdge("from", "to", &IPPermission{
+	got := graph.CreatePermEdge("from", "to", &model.IPPermission{
 		FromPort:   1,
 		ToPort:     1,
 		IPProtocol: "tcp",
 	})
-	want := &Edge{
-		from: "from",
-		to:   "to",
-		text: "TCP 1",
+	want := &graph.Edge{
+		From: "from",
+		To:   "to",
+		Text: "TCP 1",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -111,15 +115,15 @@ func TestCreateSinglePortPermEdge(t *testing.T) {
 }
 
 func TestCreateZeroPortPermEdge(t *testing.T) {
-	got := CreatePermEdge("from", "to", &IPPermission{
+	got := graph.CreatePermEdge("from", "to", &model.IPPermission{
 		FromPort:   0,
 		ToPort:     0,
 		IPProtocol: "tcp",
 	})
-	want := &Edge{
-		from: "from",
-		to:   "to",
-		text: "TCP All Ports",
+	want := &graph.Edge{
+		From: "from",
+		To:   "to",
+		Text: "TCP All Ports",
 	}
 	if *got != *want {
 		t.Errorf("got %v, want %v", got, want)
@@ -127,20 +131,20 @@ func TestCreateZeroPortPermEdge(t *testing.T) {
 }
 
 func TestAddNode(t *testing.T) {
-	g := NewGraph()
-	n := &Node{id: "id"}
+	g := graph.NewGraph()
+	n := &graph.Node{Id: "id"}
 	g.AddNode(n)
-	got := g.nodes["id"]
+	got := g.GetNodes()["id"]
 	if got != n {
 		t.Errorf("got %v, want %v", got, n)
 	}
 }
 
 func TestAddEdge(t *testing.T) {
-	g := NewGraph()
-	e := &Edge{}
+	g := graph.NewGraph()
+	e := &graph.Edge{}
 	g.AddEdge(e)
-	got := g.edges[0]
+	got := g.GetEdges()[0]
 	if got != e {
 		t.Errorf("got %v, want %v", got, e)
 	}
