@@ -135,9 +135,10 @@ func TestAddNode(t *testing.T) {
 	g := graph.NewGraph()
 	n := &graph.Node{Id: "id"}
 	g.AddNode(n)
-	got := g.GetNodes()["id"]
-	if got != n {
-		t.Errorf("got %v, want %v", got, n)
+	got := g.IfNodeExist("id")
+	want := true
+	if got != want {
+		t.Errorf("got %v, want %v", got, want)
 	}
 }
 

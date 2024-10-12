@@ -18,11 +18,12 @@ type Edge struct {
 }
 
 type Graph struct {
-	nodes map[string]*Node
+	nodes []*Node
+	node_exists map[string]bool
 	edges []*Edge
 }
 
-func (g *Graph) GetNodes() map[string]*Node {
+func (g *Graph) GetNodes() []*Node {
 	return g.nodes
 }
 
@@ -30,16 +31,22 @@ func (g *Graph) GetEdges() []*Edge {
 	return g.edges
 }
 
+func (g *Graph) IfNodeExist(id string) bool {
+	return g.node_exists[id]
+}
+
 func NewGraph() *Graph {
 	return &Graph{
-		nodes: make(map[string]*Node),
+		nodes: make([]*Node, 0),
 		edges: make([]*Edge, 0),
+		node_exists: make(map[string]bool),
 	}
 }
 
 func (g *Graph) AddNode(n *Node) {
-	if _, ok := g.nodes[n.Id]; !ok {
-		g.nodes[n.Id] = n
+	if !g.node_exists[n.Id] {
+		g.nodes = append(g.nodes, n)
+		g.node_exists[n.Id] = true
 	}
 }
 
