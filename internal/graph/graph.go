@@ -3,6 +3,7 @@ package graph
 import (
 	"fmt"
 	"strings"
+
 	"github.com/nag0yan/sgviz/internal/model"
 )
 
@@ -101,4 +102,36 @@ func CreatePermEdge(from string, to string, ipPerm *model.IPPermission) *Edge {
 		To:   to,
 		Text: strings.Join(textArray, " "),
 	}
+}
+
+func GenerateGraph(sgs []model.SecurityGroup) (*Graph, error) {
+	var g *Graph = NewGraph()
+
+	for _, sg := range sgs {
+		g.AddNode(CreateSgNode(&sg))
+
+		for _, ipPerm := range sg.IPPermissions {
+			for _, ipRange := range ipPerm.IPRanges {
+				g.AddNode(CreateIPNode(&ipRange))
+				g.AddEdge(CreatePermEdge(ipRange.CidrIP, sg.GroupID, &ipPerm))
+			}
+
+			for _, userIDGroupPair := range ipPerm.UserIDGroupPairs {
+				g.AddNode(CreateUserIDGroupPairNode(&userIDGroupPair))
+				g.AddEdge(CreatePermEdge(userIDGroupPair.GroupID, sg.GroupID, &ipPerm))
+			}
+
+			for _, prefixListId := range ipPerm.PrefixListIds {
+				g.AddNode(CreatePrefixNode(&prefixListId))
+				g.AddEdge(CreatePermEdge(prefixListId.PrefixListID, sg.GroupID, &ipPerm))
+			}
+
+			for _, ipv6Range := range ipPerm.Ipv6Ranges {
+				g.AddNode(CreateIpv6Node(&ipv6Range))
+				g.AddEdge(CreatePermEdge(ipv6Range.CidrIpv6, sg.GroupID, &ipPerm))
+			}
+		}
+	}
+
+	return g, nil
 }

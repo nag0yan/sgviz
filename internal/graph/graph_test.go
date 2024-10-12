@@ -2,8 +2,9 @@ package graph_test
 
 import (
 	"testing"
-	"github.com/nag0yan/sgviz/internal/model"
+
 	"github.com/nag0yan/sgviz/internal/graph"
+	"github.com/nag0yan/sgviz/internal/model"
 )
 
 func TestCreateSgNode(t *testing.T) {
@@ -147,5 +148,48 @@ func TestAddEdge(t *testing.T) {
 	got := g.GetEdges()[0]
 	if got != e {
 		t.Errorf("got %v, want %v", got, e)
+	}
+}
+
+func TestGenerateGraph(t *testing.T) {
+	sgs := []model.SecurityGroup{
+		{
+			GroupID:     "id",
+			GroupName:   "name",
+			Description: "description",
+			IPPermissions: []model.IPPermission{
+				{
+					FromPort:   1,
+					ToPort:     2,
+					IPProtocol: "tcp",
+					IPRanges: []model.IPRange{
+						{
+							CidrIP:      "10.0.0.0",
+							Description: "description",
+						},
+					},
+				},
+			},
+		},
+	}
+	type result struct {
+		err  error
+		ncnt int
+		ecnt int
+	}
+	want := result{
+		err:  nil,
+		ncnt: 2,
+		ecnt: 1,
+	}
+	g, err := graph.GenerateGraph(sgs)
+	if err != want.err {
+		t.Errorf("error: got %v, want %v", err, want.err)
+	}
+	if len(g.GetNodes()) != want.ncnt {
+		t.Errorf("node count: got %v, want %v", len(g.GetNodes()), want.ncnt)
+	}
+	if len(g.GetEdges()) != want.ecnt {
+		t.Errorf("edge count: got %v, want %v", len(g.GetEdges()), want.ecnt)
 	}
 }
