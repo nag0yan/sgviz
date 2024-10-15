@@ -1,0 +1,128 @@
+{
+    "SecurityGroups": [
+        {
+            "Description": "A",
+            "GroupName": "test-1",
+            "IpPermissions": [
+                {
+                    "FromPort": 80,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "8.8.8.8/32"
+                        },
+                        {
+                            "CidrIp": "10.10.10.10/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 80,
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "OwnerId": "0123456789012",
+            "GroupId": "sg-05f4eff8b1fe3b305",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-08933b0c1b30c3fd3"
+        },
+        {
+            "Description": "B",
+            "GroupName": "test-2",
+            "IpPermissions": [
+                {
+                    "FromPort": 80,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "8.8.8.8/32"
+                        },
+                        {
+                            "CidrIp": "10.10.10.10/32"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 80,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 22,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [
+                        {
+                            "GroupId": "sg-05f4eff8b1fe3b305",
+                            "UserId": "0123456789012"
+                        }
+                    ]
+                }
+            ],
+            "OwnerId": "0123456789012",
+            "GroupId": "sg-0e1113eaf4236d35f",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-08933b0c1b30c3fd3"
+        },
+        {
+            "Description": "default VPC security group",
+            "GroupName": "default",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": [
+                        {
+                            "GroupId": "sg-08b71b5d20bb03bc6",
+                            "UserId": "0123456789012"
+                        }
+                    ]
+                }
+            ],
+            "OwnerId": "0123456789012",
+            "GroupId": "sg-08b71b5d20bb03bc6",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "VpcId": "vpc-08933b0c1b30c3fd3"
+        }
+    ]
+}

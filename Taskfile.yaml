@@ -1,0 +1,20 @@
+version: 3
+
+tasks:
+  e2e:
+    internal: true
+    cmds:
+      - go run . e2e/{{.DIR}}/data.json > e2e/{{.DIR}}/result.md
+    requires:
+      vars:
+       - DIR
+  teste:
+    cmds:
+      - task: e2e
+        vars:
+          DIR: agg1
+      - task: e2e
+        vars:
+          DIR: agg2
+      
+      
