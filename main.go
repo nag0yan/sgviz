@@ -36,6 +36,8 @@ func main() {
 		return
 	}
 
+	g = g.AggregateNodes()
+
 	err = renderer.GenerateMarkDown(os.Stdout, g)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to generate markdown: %v\n", err)

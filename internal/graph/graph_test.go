@@ -133,8 +133,7 @@ func TestCreateZeroPortPermEdge(t *testing.T) {
 
 func TestAddNode(t *testing.T) {
 	g := graph.NewGraph()
-	n := &graph.Node{Id: "id"}
-	g.AddNode(n)
+	g.AddNode("id", "text")
 	got := g.IfNodeExist("id")
 	want := true
 	if got != want {
@@ -144,11 +143,11 @@ func TestAddNode(t *testing.T) {
 
 func TestAddEdge(t *testing.T) {
 	g := graph.NewGraph()
-	e := &graph.Edge{}
-	g.AddEdge(e)
-	got := g.GetEdges()[0]
-	if got != e {
-		t.Errorf("got %v, want %v", got, e)
+	g.AddEdge("from", "to", "text")
+	got := g.GetEdges()[0].From
+	want := "from"
+	if got != want {
+		t.Errorf("got %v, want %v", got, want)
 	}
 }
 
@@ -192,5 +191,36 @@ func TestGenerateGraph(t *testing.T) {
 	}
 	if len(g.GetEdges()) != want.ecnt {
 		t.Errorf("edge count: got %v, want %v", len(g.GetEdges()), want.ecnt)
+	}
+}
+
+func TestAggregateNodes(t *testing.T) {
+	g := graph.NewGraph()
+	g.AddNode("id1", "a")
+	g.AddNode("id2", "b")
+	g.AddNode("id3", "c")
+	g.AddEdge("id1", "id3", "test")
+	g.AddEdge("id2", "id3", "test")
+
+	ag := g.AggregateNodes()
+	if ag.GetNode("id1") == nil {
+		t.Errorf("got nil, want not nil")
+		return
+	}
+	got := ag.GetNode("id1").Text
+	want := "a\nb"
+	if got != want {
+		t.Errorf("got %v, want %v", got, want)
+		return
+	}
+
+	if ag.GetNodeCount() != 2 {
+		t.Errorf("got %v, want %v", ag.GetNodeCount(), 2)
+		return
+	}
+
+	if ag.GetEdgeCount() != 1 {
+		t.Errorf("got %v, want %v", ag.GetEdgeCount(), 1)
+		return
 	}
 }

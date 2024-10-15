@@ -11,15 +11,8 @@ import (
 
 func TestGenerateMarkDown(t *testing.T) {
 	g := graph.NewGraph()
-	g.AddNode(&graph.Node{
-		Id:   "sg-12345678",
-		Text: "text",
-	})
-	g.AddEdge(&graph.Edge{
-		From: "xx.xx.xx.xx",
-		To:   "to",
-		Text: "text",
-	})
+	g.AddNode("sg-12345678", "text")
+	g.AddEdge("xx.xx.xx.xx", "to", "text")
 
 	buf := new(bytes.Buffer)
 
